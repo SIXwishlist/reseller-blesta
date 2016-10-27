@@ -1,0 +1,23 @@
+{
+    "version": "1.0.0",
+    "name": "Enverido_Reseller.name",
+    "description": "Easily resell Enverido accounts!",
+	"authors": [
+		{
+			"name": "Cogative",
+			"url": "http://www.enverido.com"
+		}
+	],
+    "service": {
+        "name_key": "enverido_shortcode"
+    },
+    "module": {
+        "row": "Enverido_Reseller.module_row.name",
+        "rows": "Enverido_Reseller.module_rows.name",
+        "group": "Enverido_Reseller.module_group.name",
+        "row_key": "email"
+    },
+    "package": {
+        "name_key": "product"
+    }
+}

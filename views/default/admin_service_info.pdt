@@ -1,0 +1,43 @@
+	<table class="table">
+		<tr class="heading_row">
+			<td class="fixed_small center border_none"><span class="paymnt_arrow"></span></td>
+            <td class="border_left"><?php $this->_("Enverido_Reseller.service_info.email");?></td>
+			<td class="border_left"><?php $this->_("Enverido_Reseller.service_info.shortcode");?></td>
+
+			<?php
+			    if($service_fields->enverido_ip != null) {
+			?>
+            <td class="border_left"><?php $this->_("Enverido_Reseller.service_info.ip");?></td>
+			<?php
+		        }
+            ?>
+
+            <?php
+                if($service_fields->enverido_domain != null) {
+            ?>
+            <td class="border_left"><?php $this->_("Enverido_Reseller.service_info.domain");?></td>
+            <?php
+                }
+            ?>
+		</tr>
+		<tr>
+			<td></td>
+            <td><?php $this->Html->_($service_fields->enverido_email);?></td>
+			<td><?php $this->Html->_($service_fields->enverido_shortcode);?></td>
+			<?php
+                if($service_fields->enverido_ip != null) {
+            ?>
+            <td class="border_left"><?php $this->Html->_($service_fields->enverido_ip); ?></td>
+            <?php
+                }
+            ?>
+
+            <?php
+                if($service_fields->enverido_domain != null) {
+            ?>
+            <td class="border_left"><?php $this->Html->_($service_fields->enverido_domain); ?></td>
+            <?php
+                }
+            ?>
+		</tr>
+	</table>

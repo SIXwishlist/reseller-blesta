@@ -1,0 +1,48 @@
+        <?php
+		$this->Widget->clear();
+		$this->Widget->setLinkButtons(array());
+		$this->Widget->create($this->_("Enverido_Reseller.add_row.box_title", true));
+		?>
+		<div class="inner">
+			<?php
+			$this->Form->create();
+			?>
+			<div class="title_row first">
+				<h3><?php $this->_("Enverido_Reseller.add_row.basic_title");?></h3>
+			</div>
+			<div class="pad">
+                <ul>
+                    <li>
+                        <?php
+						$this->Form->label($this->_("Enverido_Reseller.row_meta.email", true), "email");
+						$this->Form->fieldText("email", $this->Html->ifSet($vars->email), array('id' => "email"));
+						?>
+                        <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Enverido_Reseller.row_meta.tooltip.email");?></div></span>
+                    </li>
+                    <li>
+                        <?php
+                        $this->Form->label($this->_("Enverido_Reseller.row_meta.organisation", true), "organisation");
+                        $this->Form->fieldText("organisation", $this->Html->ifSet($vars->organisation), array('id' => "organisation"));
+                        ?>
+                        <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Enverido_Reseller.row_meta.tooltip.organisation");?></div></span>
+                    </li>
+                    <li>
+                        <?php
+						$this->Form->label($this->_("Enverido_Reseller.row_meta.key", true), "key");
+						$this->Form->fieldText("key", $this->Html->ifSet($vars->key), array('id' => "key"));
+						?>
+                        <span class="tooltip"><?php $this->_("AppController.tooltip.text");?><div><?php $this->_("Enverido_Reseller.row_meta.tooltip.key");?></div></span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="button_row">
+				<a class="btn_right submit" href="#"><?php $this->_("Enverido_Reseller.add_row.add_btn");?></a>
+			</div>
+			<?php
+			$this->Form->end();
+			?>
+		</div>
+		<?php
+		$this->Widget->end();
+		?>

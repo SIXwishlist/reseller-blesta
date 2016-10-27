@@ -1,0 +1,85 @@
+	
+	<h4><?php $this->_("Enverido_Reseller.tab_reissue_licence.heading");?></h4>
+	<div class="row options">
+        <?php
+		$this->Form->create($this->base_uri . "services/manage/" . $this->Html->ifSet($service_id) . "/tabReissueLicence/");
+		?>
+		<div class="col-md-12">
+            <div class="current-fields">
+
+                <?php
+                $this->Form->label($this->_("Enverido_Reseller.tab_reissue_licence.current_email", true));
+                ?>
+                <h4><?php echo($vars['enverido_email']); ?></h4>
+
+                <?php
+                    if($service_fields->enverido_ip != null) {
+                ?>
+                <?php
+                $this->Form->label($this->_("Enverido_Reseller.tab_reissue_licence.current_ip", true));
+                ?>
+                <h4><?php echo($vars['enverido_ip']); ?></h4>
+                <?php
+                    }
+                ?>
+
+                <?php
+                    if($service_fields->enverido_domain != null) {
+                ?>
+                <?php
+                $this->Form->label($this->_("Enverido_Reseller.tab_reissue_licence.current_domain", true));
+                ?>
+                <h4><?php echo($vars['enverido_domain']); ?></h4>
+                <?php
+                    }
+                ?>
+
+            </div>
+
+            <hr>
+
+			<div class="form-group">
+
+                <?php
+                    $this->Form->label($this->_("Enverido_Reseller.tab_reissue_licence.new_email", true), "email");
+                    $this->Form->fieldText("enverido_email", $this->Html->ifSet($vars['enverido_email']), array('id' => "email", 'class'=>"form-control"));
+                ?>
+
+                <?php
+                    if($service_fields->enverido_ip != null) {
+                ?>
+                    <?php
+                        $this->Form->label($this->_("Enverido_Reseller.tab_reissue_licence.new_ip", true), "ip");
+                        $this->Form->fieldText("enverido_ip", $this->Html->ifSet($vars['enverido_ip']), array('id' => "ip", 'class'=>"form-control"));
+                    ?>
+                <?php
+                    }
+                ?>
+
+                <?php
+                    if($service_fields->enverido_domain != null) {
+                ?>
+                    <?php
+                        $this->Form->label($this->_("Enverido_Reseller.tab_reissue_licence.new_domain", true), "domain");
+                        $this->Form->fieldText("enverido_domain", $this->Html->ifSet($vars['enverido_domain']), array('id' => "domain", 'class'=>"form-control"));
+                    ?>
+                <?php
+                    }
+                ?>
+
+
+			</div>
+            <button class="btn btn-default pull-right">
+                <i class="fa fa-refresh"></i> <?php $this->_("Enverido_Reseller.tab_reissue_licence.field_submit");?>
+            </button>
+		</div>
+        <?php
+		$this->Form->end();
+		?>
+	</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(this).blestaSetHeadTag("link", {media:"screen", type:"text/css", rel:"stylesheet", href: "<?php echo $this->Html->safe($this->view_dir . "css/styles.css");?>"});
+});
+</script>

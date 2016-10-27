@@ -1,0 +1,13 @@
+{
+    "name": "enverido/blesta",
+    "description": "Official Blesta module for Enverido",
+    "license": "MIT",
+    "type": "blesta-module",
+    "licence": "MIT",
+    "require": {
+        "enverido/php": "~1.0"
+    },
+    "require-dev": {
+        "psy/psysh": "@stable"
+    }
+}
