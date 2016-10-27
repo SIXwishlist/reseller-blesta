@@ -1,7 +1,7 @@
 # Install
 
 To install the Enverido reseller Blesta module, simply download our latest release,
-extract the ZIP file, and place the "enverido" folder in the following
+extract the ZIP file, and place the "enverido_reseller" folder in the following
 path:
 
 `/path/to/blesta/components/modules/`
