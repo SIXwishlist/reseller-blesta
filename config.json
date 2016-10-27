@@ -9,7 +9,7 @@
 		}
 	],
     "service": {
-        "name_key": "enverido_shortcode"
+        "name_key": "enverido_email"
     },
     "module": {
         "row": "Enverido_Reseller.module_row.name",
@@ -18,6 +18,6 @@
         "row_key": "email"
     },
     "package": {
-        "name_key": "product"
+        "name_key": "plan"
     }
 }

@@ -56,20 +56,24 @@ $lang['Enverido_Reseller.tab_reissue_licence.field_submit'] = "Reissue";
 
 
 // Package fields
-$lang['Enverido_Reseller.package_fields.product'] = "Product";
-$lang['Enverido_Reseller.package_fields.authority'] = "Issuing Authority";
+$lang['Enverido_Reseller.package_fields.plan'] = "Subscription plan";
 
 
 // Service fields
-$lang['Enverido_Reseller.service_fields.email'] = "Licence Holder Email Address";
-$lang['Enverido_Reseller.service_field.tooltip.email'] = "Enter the email address of the licence holder.";
+$lang['Enverido_Reseller.service_fields.name'] = "Account Holder's Name";
+$lang['Enverido_Reseller.service_field.tooltip.name'] = "Enter the account holder's full name.";
 
-$lang['Enverido_Reseller.service_fields.ipaddress'] = "IP Address";
-$lang['Enverido_Reseller.service_field.tooltip.ipaddress'] = "Enter the IP address you wish to license.";
-$lang['Enverido_Reseller.service_fields.domain'] = "Domain";
-$lang['Enverido_Reseller.service_field.tooltip.domain'] = "Enter the domain name you wish to license.";
-$lang['Enverido_Reseller.service_field.tooltip.domain_edit'] = "Changing the domain name will only affect the service locally.";
+$lang['Enverido_Reseller.service_fields.organisation'] = "Account's Organisation";
+$lang['Enverido_Reseller.service_field.tooltip.organisation'] = "Account's organisation name. Must be one word, no special characters";
 
+$lang['Enverido_Reseller.service_fields.news'] = "Subscribe to Enverido news and updates?";
+
+$lang['Enverido_Reseller.service_fields.tos'] = "Agrees to Enverido's terms of service?";
+
+$lang['Enverido_Reseller.service_fields.email'] = "Account Email Address";
+$lang['Enverido_Reseller.service_field.tooltip.email'] = "Enter the new account's email address.";
+
+$lang['Enverido_Reseller.service_fields.password'] = "Account's Password";
 
 // Service info
 $lang['Enverido_Reseller.service_info.email'] = "Licensee Email";

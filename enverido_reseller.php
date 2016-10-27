@@ -48,14 +48,6 @@ class EnveridoReseller extends Module {
 	 * @return boolean True if the service validates, false otherwise. Sets Input errors when false.
 	 */
 	public function validateService($package, array $vars=null) {
-        // Get information about the product from the Enverido API
-        $productInfo = $this->getProductInformationFromPackage($package);
-
-        if($productInfo == null) {
-            $this->Input->setErrors(array('api' => array('internal' => Language::_("Enverido_Reseller.!error.api.internal", true))));
-            return;
-        }
-
         $rules = array(
             'enverido_email' => array(
                 'empty' => array(
@@ -129,43 +121,6 @@ class EnveridoReseller extends Module {
 
         if ($this->Input->errors())
 			return;
-
-        // Generate an expiry date
-        // Get term (eg: 1, 2, 5, 10) This will be attached to the period (days, months, years, etc)
-
-        // Blesta passes all pricing terms data so we need to work out which one the user picked
-        $term = null; // eg 15
-        $period = null; // eg days
-
-        foreach($package->pricing as $pricing) {
-            // If the user picked this pricing option then set our term and period variables
-            if($pricing->id == $vars['pricing_id']) {
-                $term = $pricing->term;
-                $period = $pricing->period;
-            }
-        }
-
-        $today = new DateTime();
-
-        // Here we add the expected amount of time between today and the licence expiration
-        switch($period) {
-            case 'onetime':
-                // Expiration date 100 years in the future
-                $today->add(new DateInterval('P100Y'));
-                break;
-            case 'year':
-                $today->add(new DateInterval('P'.$term.'Y'));
-                break;
-            case 'month':
-                $today->add(new DateInterval('P'.$term.'M'));
-                break;
-            case 'week':
-                $today->add(new DateInterval('P'.$term.'W'));
-                break;
-            case 'day':
-                $today->add(new DateInterval('P'.$term.'D'));
-                break;
-        }
 
         // Only provision the service if 'use_module' is true
 		if ($vars['use_module'] == "true") {
@@ -769,24 +724,15 @@ class EnveridoReseller extends Module {
         // Get an API instance from the module row's organisation and API key
         $api = $this->getApi($this->getModuleRow($module_row)->meta->organisation, $this->getModuleRow($module_row)->meta->key);
 
-        // Get a list of products from the API and store the ID and name in an array for insertion into a select element
-        $productsWithIds = array();
-        try {
-            foreach ($api->getProducts() as $p) {
-                $productsWithIds[$p->id] = $p->name;
-            }
-        } catch(\GuzzleHttp\Exception\ClientException $ex) {
-            $this->Input->setErrors(array('api' => array('internal' => Language::_("Enverido_Reseller.!error.api.internal", true))));
-        }
+        // Get a list of plans from the API
+        $plans = array();
 
-        if ($this->Input->errors())
-            return;
-
-        // Get a list of issuing authorities from the API and store the ID and name in an array for insertion into a select element
-        $authoritiesWithIds = array();
         try {
-            foreach ($api->getIssuingAuthorities() as $a) {
-                $authoritiesWithIds[$a->id] = $a->name;
+            /**
+             * @var stdClass $plan
+             */
+            foreach(\Enverido\API\Reselling\SubscriptionPlan::all($api) as $plan) {
+                $plans[$plan->id] = $plan->label;
             }
         } catch(\GuzzleHttp\Exception\ClientException $ex) {
             $this->Input->setErrors(array('api' => array('internal' => Language::_("Enverido_Reseller.!error.api.internal", true))));
@@ -796,15 +742,10 @@ class EnveridoReseller extends Module {
             return;
 
         // Set the package's available options
-		$product = $fields->label(Language::_("Enverido_Reseller.package_fields.product", true), "product");
-		$product->attach($fields->fieldSelect("meta[product]", $productsWithIds,
-			$this->Html->ifSet($vars->meta['product']), array('id'=>"product")));
-		$fields->setField($product);
-
-        $authority = $fields->label(Language::_("Enverido_Reseller.package_fields.authority", true), "authority");
-        $authority->attach($fields->fieldSelect("meta[authority]", $authoritiesWithIds,
-            $this->Html->ifSet($vars->meta['authority']), array('id'=>"authority")));
-        $fields->setField($authority);
+		$plan = $fields->label(Language::_("Enverido_Reseller.package_fields.plan", true), "plan");
+		$plan->attach($fields->fieldSelect("meta[plan]", $plans,
+			$this->Html->ifSet($vars->meta['plan']), array('id'=>"plan")));
+		$fields->setField($plan);
 
 		return $fields;
 	}
@@ -866,40 +807,44 @@ class EnveridoReseller extends Module {
 		
 		$fields = new ModuleFields();
 
-        $product = $this->getProductInformationFromPackage($package);
-        if($product == null) {
-            $this->Input->setErrors(array('api' => array('internal' => Language::_("Enverido_Reseller.!error.api.internal", true))));
-        } else {
+        // Account holder's name
+        $name = $fields->label(Language::_("Enverido_Reseller.service_fields.name", true), "enverido_reseller_name");
+        $name->attach($fields->fieldText("enverido_reseller_name", $this->Html->ifSet($vars->enverido_reseller_name, $this->Html->ifSet($vars->name)), array('id' => "enverido_reseller_name")));
+        // Add tooltip
+        $tooltip = $fields->tooltip(Language::_("Enverido_Reseller.service_field.tooltip.name", true));
+        $name->attach($tooltip);
+        $fields->setField($name);
 
-            // Licensee Email Address
-            $email = $fields->label(Language::_("Enverido_Reseller.service_fields.email", true), "enverido_email");
-            $email->attach($fields->fieldText("enverido_email", $this->Html->ifSet($vars->enverido_email, $this->Html->ifSet($vars->email)), array('id' => "enverido_email")));
-            // Add tooltip
-            $tooltip = $fields->tooltip(Language::_("Enverido_Reseller.service_field.tooltip.email", true));
-            $email->attach($tooltip);
-            $fields->setField($email);
+        // Account's Email Address
+        $email = $fields->label(Language::_("Enverido_Reseller.service_fields.email", true), "enverido_reseller_email");
+        $email->attach($fields->fieldText("enverido_reseller_email", $this->Html->ifSet($vars->enverido_reseller_email, $this->Html->ifSet($vars->email)), array('id' => "enverido_reseller_email")));
+        // Add tooltip
+        $tooltip = $fields->tooltip(Language::_("Enverido_Reseller.service_field.tooltip.email", true));
+        $email->attach($tooltip);
+        $fields->setField($email);
 
-            if ($product->lock_domain_name) {
-                // Domain name
-                $domain = $fields->label(Language::_("Enverido_Reseller.service_fields.domain", true), "enverido_domain");
-                $domain->attach($fields->fieldText("enverido_domain", $this->Html->ifSet($vars->enverido_domain, $this->Html->ifSet($vars->domain)), array('id' => "enverido_domain")));
-                // Add tooltip
-                $tooltip = $fields->tooltip(Language::_("Enverido_Reseller.service_field.tooltip.domain", true));
-                $domain->attach($tooltip);
-                $fields->setField($domain);
-            }
+        // Account's organisation
+        $organisation = $fields->label(Language::_("Enverido_Reseller.service_fields.organisation", true), "enverido_reseller_organisation");
+        $organisation->attach($fields->fieldText("enverido_reseller_organisation", $this->Html->ifSet($vars->enverido_reseller_organisation, $this->Html->ifSet($vars->organisation)), array('id' => "enverido_reseller_organisation")));
+        // Add tooltip
+        $tooltip = $fields->tooltip(Language::_("Enverido_Reseller.service_field.tooltip.organisation", true));
+        $organisation->attach($tooltip);
+        $fields->setField($organisation);
 
-            if ($product->lock_ip) {
-                // Set the IP address as selectable options
-                $ip = $fields->label(Language::_("Enverido_Reseller.service_fields.ipaddress", true), "enverido_ip");
-                $ip->attach($fields->fieldText("enverido_ip", $this->Html->ifSet($vars->enverido_ip), array('id' => "enverido_ip")));
-                // Add tooltip
-                $tooltip = $fields->tooltip(Language::_("Enverido_Reseller.service_field.tooltip.ipaddress", true));
-                $ip->attach($tooltip);
-                $fields->setField($ip);
-            }
-        }
-		
+        // Account's password
+        $password = $fields->label(Language::_("Enverido_Reseller.service_fields.password", true), "enverido_reseller_password");
+        $password->attach($fields->fieldPassword("enverido_reseller_password", array('id' => "enverido_reseller_password")));
+        $fields->setField($password);
+
+        // Receive news?
+        $news = $fields->label(Language::_("Enverido_Reseller.service_fields.news", true), "enverido_reseller_news");
+        $news->attach($fields->fieldCheckbox("enverido_reseller_news", null, $this->Html->ifSet($vars->enverido_reseller_news, $this->Html->ifSet($vars->news)), array('id' => 'enverido_reseller_news')));
+        $fields->setField($news);
+
+        // ToS agreement?
+        $tos = $fields->label(Language::_("Enverido_Reseller.service_fields.tos", true), "enverido_reseller_tos");
+        $tos->attach($fields->fieldCheckbox("enverido_reseller_tos", null, $this->Html->ifSet($vars->enverido_reseller_tos, $this->Html->ifSet($vars->tos)), array('id' => 'enverido_reseller_tos')));
+        $fields->setField($tos);
 		return $fields;
 	}
 	
@@ -1113,15 +1058,16 @@ class EnveridoReseller extends Module {
 	}
 
     /**
-	 * Initializes the Enverido Api and returns an instance of that object with the given account information set
-	 *
-	 * @param string $email The account email address
-	 * @param string $key The API Key
-	 * @return \Apis\EnveridoApi An Enverido instance
-	 */
+     * Initializes the Enverido Api and returns an instance of that object with the given account information set
+     *
+     * @param string $email The account email address
+     * @param string $key The API Key
+     *
+     * @return \Enverido\API\Api
+     */
 	private function getApi($organisation, $key) {
-	    // TODO change this to new API class
-		return new \Apis\EnveridoApi($organisation, $key, $this);
+	    // TODO change from staging server to live server when not testing. Or, even better, add a test mode!
+        return new \Enverido\API\Api($organisation, $key, 'staging.enverido.com', false);
 	}
 
 	/**
