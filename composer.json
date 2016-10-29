@@ -1,6 +1,6 @@
 {
-    "name": "enverido/blesta",
-    "description": "Official Blesta module for Enverido",
+    "name": "enverido/reseller-blesta",
+    "description": "Official Blesta module to resell Enverido accounts",
     "license": "MIT",
     "type": "blesta-module",
     "licence": "MIT",
