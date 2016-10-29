@@ -4,46 +4,17 @@
 			<thead>
 				<tr>
 					<th><i class="fa fa-share fa-flip-vertical"></i></th>
-					<th class="border_left"><?php $this->_("Enverido_Reseller.service_info.email");?></th>
-                    <th class="border_left"><?php $this->_("Enverido_Reseller.service_info.shortcode");?></th>
-
-                    <?php
-                        if($service_fields->enverido_ip != null) {
-                    ?>
-                    <th class="border_left"><?php $this->_("Enverido_Reseller.service_info.ip");?></th>
-                    <?php
-                        }
-                    ?>
-
-                    <?php
-                        if($service_fields->enverido_domain != null) {
-                    ?>
-                    <th class="border_left"><?php $this->_("Enverido_Reseller.service_info.domain");?></th>
-                    <?php
-                        }
-                    ?>
+					<th class="border_left"><?php $this->_("Enverido_Reseller.service_info.name");?><</th>
+                    <th class="border_left"><?php $this->_("Enverido_Reseller.service_info.email");?></th>
+                    <th class="border_left"><?php $this->_("Enverido_Reseller.service_info.organisation");?></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
 					<td></td>
-                    <td><?php $this->Html->_($service_fields->enverido_email);?></td>
-                    <td><?php $this->Html->_($service_fields->enverido_shortcode);?></td>
-                    <?php
-                        if($service_fields->enverido_ip != null) {
-                    ?>
-                    <td class="border_left"><?php $this->Html->_($service_fields->enverido_ip); ?></td>
-                    <?php
-                        }
-                    ?>
-
-                    <?php
-                        if($service_fields->enverido_domain != null) {
-                    ?>
-                    <td class="border_left"><?php $this->Html->_($service_fields->enverido_domain); ?></td>
-                    <?php
-                        }
-                    ?>
+                    <td><?php $this->Html->_($service_fields->enverido_reseller_name);?></td>
+                    <td><?php $this->Html->_($service_fields->enverido_reseller_email);?></td>
+                    <td><?php $this->Html->_($service_fields->enverido_reseller_organisation);?></td>
 				</tr>
 			</tbody>
 		</table>

@@ -6,13 +6,16 @@ $lang['Enverido_Reseller.!error.key.empty'] = "Please enter your API Key.";
 $lang['Enverido_Reseller.!error.test_mode.valid'] = "Test mode must be set to true or false.";
 $lang['Enverido_Reseller.!error.meta[license_type].valid'] = "Please select a valid license type.";
 
-$lang['Enverido_Reseller.!error.enverido_email.empty'] = "Please enter an email address.";
+$lang['Enverido_Reseller.!error.enverido_reseller_email.empty'] = "Please enter an email address.";
+$lang['Enverido_Reseller.!error.enverido_reseller_name.empty'] = "Please enter a name.";
+$lang['Enverido_Reseller.!error.enverido_reseller_organisation.empty'] = "Please enter an organisation.";
+$lang['Enverido_Reseller.!error.enverido_reseller_organisation.whitespace'] = "The organisation name must be one word.";
+$lang['Enverido_Reseller.!error.enverido_reseller_password.empty'] = "Please enter a password.";
+$lang['Enverido_Reseller.!error.enverido_reseller_tos.empty'] = "You must agree to the Enverido terms of service.";
 
-$lang['Enverido_Reseller.!error.enverido_ip.format'] = "Please enter a valid IP address.";
-$lang['Enverido_Reseller.!error.enverido_ip.empty'] = "Please enter an IP address.";
-$lang['Enverido_Reseller.!error.enverido_domain.empty'] = "Please enter a domain name.";
 
 $lang['Enverido_Reseller.!error.api.internal'] = "An internal error occurred, or the server did not respond to the request.";
+$lang['Enverido_Reseller.!error.api.accountmismatch'] = "A resold account cannot move between reseller accounts. Please ensure that both packages belong to the same reseller.";
 
 
 // Module
@@ -68,7 +71,7 @@ $lang['Enverido_Reseller.service_field.tooltip.organisation'] = "Account's organ
 
 $lang['Enverido_Reseller.service_fields.news'] = "Subscribe to Enverido news and updates?";
 
-$lang['Enverido_Reseller.service_fields.tos'] = "Agrees to Enverido's terms of service?";
+$lang['Enverido_Reseller.service_fields.tos'] = "Agree to Enverido's terms of service?";
 
 $lang['Enverido_Reseller.service_fields.email'] = "Account Email Address";
 $lang['Enverido_Reseller.service_field.tooltip.email'] = "Enter the new account's email address.";
@@ -76,11 +79,10 @@ $lang['Enverido_Reseller.service_field.tooltip.email'] = "Enter the new account'
 $lang['Enverido_Reseller.service_fields.password'] = "Account's Password";
 
 // Service info
-$lang['Enverido_Reseller.service_info.email'] = "Licensee Email";
-$lang['Enverido_Reseller.service_info.ip'] = "Licensed IP";
-$lang['Enverido_Reseller.service_info.domain'] = "Licensed Domain";
-$lang['Enverido_Reseller.service_info.shortcode'] = "Licence Short Code";
-
+$lang['Enverido_Reseller.service_info.id'] = "Account ID";
+$lang['Enverido_Reseller.service_info.name'] = "Account Holder's Name";
+$lang['Enverido_Reseller.service_info.email'] = "Account Holder's Email";
+$lang['Enverido_Reseller.service_info.organisation'] = "Account Holder's Organisation";
 
 // Row meta
 $lang['Enverido_Reseller.row_meta.email'] = "Account Email Address";

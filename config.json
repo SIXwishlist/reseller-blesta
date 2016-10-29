@@ -9,7 +9,7 @@
 		}
 	],
     "service": {
-        "name_key": "enverido_email"
+        "name_key": "enverido_reseller_email"
     },
     "module": {
         "row": "Enverido_Reseller.module_row.name",
