@@ -511,6 +511,8 @@ class EnveridoReseller extends Module {
 	public function addPackage(array $vars=null) {
         // Set rules to validate input data
 		//$this->Input->setRules($this->getPackageRules($vars));
+
+        print_r($vars);
 		
 		// Build meta data to return
 		$meta = array();
